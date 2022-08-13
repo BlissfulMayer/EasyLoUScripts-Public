@@ -28,81 +28,79 @@ LastBuy = 0
 BuyRegs = false
 DoHeal = false
 
-Vendors = {"Winston", "Asisa", "Conway"}
-RegsToBuy = {"Spider's Silk", "Sulfurous Ash"}
+Vendors = { "Winston", "Asisa", "Conway" }
+RegsToBuy = { "Spider's Silk", "Sulfurous Ash" }
 LastHeal = GetTime()
 
 AllowSpeech = true
 
 function DoCastSpell()
-	MacroTargetSelf(SpellSlot)
-	SafeSleep(SpellDelay * 1000)
-	-- Say("guards")
-	if MaximizeHealingGains == true then
-		AsboluteMacro(HealSlot)
-	end
+  MacroTargetSelf(SpellSlot)
+  SafeSleep(SpellDelay * 1000)
+  -- Say("guards")
+  if MaximizeHealingGains == true then
+    AsboluteMacro(HealSlot)
+  end
 end
 
 function DoMeditate()
-	repeat
-		-- if GetLoginSafeValue(INT) > 39 then
-		-- 	AsboluteMacro(HealSlot)
-		-- 	SpellSlot = 24
-		-- 	SpellMana = 40
-		-- end
-		AsboluteMacro(MeditateSlot)
-		SafeSleep(MeditationDelay * 1000)
-		-- Say("guards")
-	until GetLoginSafeValue(MANA) > GetLoginSafeValue(INT)-1
+  repeat
+    -- if GetLoginSafeValue(INT) > 39 then
+    -- 	AsboluteMacro(HealSlot)
+    -- 	SpellSlot = 24
+    -- 	SpellMana = 40
+    -- end
+    AsboluteMacro(MeditateSlot)
+    SafeSleep(MeditationDelay * 1000)
+    -- Say("guards")
+  until GetLoginSafeValue(MANA) > GetLoginSafeValue(INT) - 1
 end
 
 function DoBuy()
-	for i,Vendor in ipairs(Vendors) do
-		BuyFromVendor(Vendor, RegsToBuy, "All")
-	end
+  for i, Vendor in ipairs(Vendors) do
+    BuyFromVendor(Vendor, RegsToBuy, "All")
+  end
 end
-
 
 function DoMagicHeal()
-	if GetTime() > LastHeal + (HealDelay) then
-		if HEALTH < HealThreshold then
-				Log("Healing")
-				AsboluteMacro(HealSlot)
-		end
-		LastHeal = GetTime()
-	end
+  if GetTime() > LastHeal + (HealDelay) then
+    if HEALTH < HealThreshold then
+      Log("Healing")
+      AsboluteMacro(HealSlot)
+    end
+    LastHeal = GetTime()
+  end
 end
 
-
 function DoBuyRegs()
-	if BuyRegs then
-		if GetTime() > LastBuy + (BuyDelay) then
-			-- if(BuyCount < BuyTimesAllowed) then
-				DoBuy()
-				BuyCount = BuyCount + 1
-			-- end
-			LastBuy = GetTime()
-		end
-	end
+  if BuyRegs then
+    if GetTime() > LastBuy + (BuyDelay) then
+      -- if(BuyCount < BuyTimesAllowed) then
+      DoBuy()
+      BuyCount = BuyCount + 1
+      -- end
+      LastBuy = GetTime()
+    end
+  end
 end
 
 Count = 0
 BuyCount = 1
 while true do
-	Eat()
-	print("looping")
-	if GetLoginSafeValue(MANA) < SpellMana then
-		print(1)
-		-- Heal()
-		DoMeditate()
-	elseif GetLoginSafeValue(HEALTH) < HealThreshold then
-		print(2)
-		Heal()
-		SafeSleep(13000)
-		Heal()
-	elseif GetLoginSafeValue(HEALTH) >= HealThreshold then
-		print(3)
-		DoCastSpell()
-	end
-	DoBuyRegs()
+  Eat()
+  print("looping")
+  if GetLoginSafeValue(MANA) < SpellMana then
+    print(1)
+    -- Heal()
+    DoMeditate()
+  elseif GetLoginSafeValue(HEALTH) < HealThreshold then
+    print(2)
+    Heal()
+    SafeSleep(13000)
+    Heal()
+  elseif GetLoginSafeValue(HEALTH) >= HealThreshold then
+    print(3)
+    DoCastSpell()
+  end
+  DoBuyRegs()
 end

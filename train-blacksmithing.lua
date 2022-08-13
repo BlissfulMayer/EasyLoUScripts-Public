@@ -14,10 +14,10 @@ SelectedBankLocation = "Britain Bank"
 
 FindItem("Crafting Pouch", GetLoginSafeValue(BACKPACKID))
 CraftingPouch  = FINDITEM[1].ID
-Resource = "Iron"
-AmountRequire = 6
+Resource       = "Iron"
+AmountRequire  = 6
 BlacksmithItem = "Short Spear"
-BankCount = 1
+BankCount      = 1
 
 function MoveToBreakCurrentAction()
   OriginalZPosition = GetLoginSafeValue(CHARPOSZ)
@@ -73,7 +73,7 @@ function WaitTillSalvageComplete()
     FindItem(BlacksmithItem, CraftingPouch)
     SafeSleep(1000)
   until FINDITEM == nil -- or GetTime() > StartTime + 300
-  if(FINDITEM == nil) then
+  if (FINDITEM == nil) then
     Log("Salvaging ended because the bag is empty")
   else
     Log("Salvaging ended because of timeout")
@@ -93,7 +93,7 @@ function WaitTillBlacksmithingComplete()
     FindItem("Hammer")
   until FINDPANEL ~= nil or FINDITEM == nil or GetTime() > StartTime + 900
   ClosePanel("CraftingWindow")
-  if(FINDPANEL ~= nil) then
+  if (FINDPANEL ~= nil) then
     Log("Blacksmithing ended because the window reopened")
   elseif FINDITEM == nil then
     Log("Blacksmithing ended because hammers ran out")
@@ -111,12 +111,12 @@ function DoBanking()
   OpenContainer(BackpackRegBag)
   SafeSleep(3000)
   if GetItemCount(Resource, BankID) == 0 then
-      Speak("No " .. Resource .. " Left - Exiting")
-      LogoutAndEndScript()
+    Speak("No " .. Resource .. " Left - Exiting")
+    LogoutAndEndScript()
   end
   RestockItemFromContainer(Resource, 300, BankID, CraftingPouch)
   GetMultipleNonStackableFromContainer("Hammer", 2, BankToolBag, BACKPACKID)
-  RestockRegsResult = RestockRegs(20, {"Black Pearl", "Blood Moss", "Mandrake Root"})
+  RestockRegsResult = RestockRegs(20, { "Black Pearl", "Blood Moss", "Mandrake Root" })
   if RestockRegsResult == false then
     LogoutAndEndScript(RestockRegsResult)
   end
@@ -125,26 +125,24 @@ function DoBanking()
 end
 
 while true do
-    FindItem(SmithingLocations[SelectedSmithingLocation].ForgeId)
-    Forge = FINDITEM
+  FindItem(SmithingLocations[SelectedSmithingLocation].ForgeId)
+  Forge = FINDITEM
 
-    if Forge ~= nil then
-      Eat()
-      DoBlacksmithing()
-      Eat()
-      DoSalvaging()
-    end
-
-    FindItem("Hammer", BACKPACKID)
-    Hammers = FINDITEM
-    FindItem(BlacksmithItem, CraftingPouch)
-    Deeds = FINDITEM
-
-    if Hammers == nil or Forge == nil or (GetItemCount(Resource, CraftingPouch) < AmountRequire and Deeds == nil) then
-      DoBanking()
-    end
-
+  if Forge ~= nil then
     Eat()
+    DoBlacksmithing()
+    Eat()
+    DoSalvaging()
+  end
+
+  FindItem("Hammer", BACKPACKID)
+  Hammers = FINDITEM
+  FindItem(BlacksmithItem, CraftingPouch)
+  Deeds = FINDITEM
+
+  if Hammers == nil or Forge == nil or (GetItemCount(Resource, CraftingPouch) < AmountRequire and Deeds == nil) then
+    DoBanking()
+  end
+
+  Eat()
 end
-
-

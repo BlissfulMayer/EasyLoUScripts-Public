@@ -10,18 +10,18 @@ DoHealSpar = true
 
 while true do
   if DoHealSpar then
-        FindMobile(SparTarget)
-        if FINDMOBILE then
-          Victim = FINDMOBILE[1]
-          if SparHealThreshold == nil or (Victim.HP < SparHealThreshold)  then
-          FindItem("Bandage", GetLoginSafeValue(BACKPACKID))
-          if FINDITEM then
-            UseSelected(FINDITEM[1].ID)
-            WaitForTarget()
-            TargetDynamic(Victim.ID)
-          end
+    FindMobile(SparTarget)
+    if FINDMOBILE then
+      Victim = FINDMOBILE[1]
+      if SparHealThreshold == nil or (Victim.HP < SparHealThreshold) then
+        FindItem("Bandage", GetLoginSafeValue(BACKPACKID))
+        if FINDITEM then
+          UseSelected(FINDITEM[1].ID)
+          WaitForTarget()
+          TargetDynamic(Victim.ID)
         end
       end
-      SafeSleep(5000)
+    end
+    SafeSleep(5000)
   end
 end

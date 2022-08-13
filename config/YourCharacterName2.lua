@@ -12,7 +12,7 @@ HarvestingBag = 7060164
 
 FindItem("Reagent Pouch", GetLoginSafeValue(BACKPACKID))
 if FINDITEM then
-  BackpackRegBag  = FINDITEM[1].ID
+  BackpackRegBag = FINDITEM[1].ID
 end
 
 SelectedSmithingLocation = "Britain Forge"
@@ -44,8 +44,8 @@ LastReEquip = 0
 SparTarget = "YourCharacterName"
 
 EquipItems = {
-	-- CHESTNAME = "Tunic",
-	-- LEGSNAME = "Leggings",
-	-- HEADNAME = "Coif",
-	RIGHTHANDNAME = "Hatchet"
+  -- CHESTNAME = "Tunic",
+  -- LEGSNAME = "Leggings",
+  -- HEADNAME = "Coif",
+  RIGHTHANDNAME = "Hatchet"
 }

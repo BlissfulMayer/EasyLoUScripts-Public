@@ -9,17 +9,24 @@ require "config"
 -- you'll need to set some item id's in /config/YourChacraterName.lua
 
 RuneLocations = {}
-RuneLocations['Britain Bank'] = {ButtonName = 'Britain Bank', CheckObjectID = '148722407', ObjectType = "Item", IsBank = true}
-RuneLocations['Britain Forge'] = {ButtonName = 'Britain Forge', CheckObjectID = '30535',  ObjectType = "Permanent", IsBank = false}
-RuneLocations['Minoc'] = {ButtonName = 'Minoc', CheckObjectID = '83324',  ObjectType = "Permanent", IsBank = false}
-RuneLocations['Rocks I'] = {ButtonName = "Rocks I", CheckObjectID = '14523',  ObjectType = "Permanent", IsBank = false}
-RuneLocations['Trees I'] = {ButtonName = "Trees I", CheckObjectID = '14523',  ObjectType = "Permanent", IsBank = false}
-RuneLocations['Britain Carpenter'] = {ButtonName = "Britain Carpenter", CheckObjectID = '505334858',  ObjectType = "Item", IsBank = false}
-RuneLocations['Britain General Store'] = {ButtonName = "Britain General Store", CheckObjectID = '505335064',  ObjectType = "Item", IsBank = false}
-RuneLocations['Dagger Isle'] = {ButtonName = "Dagger Isle", CheckObjectID = '79194',  ObjectType = "Permanent", IsBank = false}
-RuneLocations['Sand Graveyard'] = {ButtonName = "Sand Graveyard", CheckObjectID = '40991',  ObjectType = "Permanent", IsBank = false}
-RuneLocations['Yew Carpenter'] = {ButtonName = "Yew Carpenter", CheckObjectID = '146246524',  ObjectType = "Item", IsBank = false}
-RuneLocations['Cove Bank'] = {ButtonName = "Cove Bank", CheckObjectID = '11214026',  ObjectType = "Item", IsBank = true}
+RuneLocations['Britain Bank'] = { ButtonName = 'Britain Bank', CheckObjectID = '148722407', ObjectType = "Item",
+  IsBank = true }
+RuneLocations['Britain Forge'] = { ButtonName = 'Britain Forge', CheckObjectID = '30535', ObjectType = "Permanent",
+  IsBank = false }
+RuneLocations['Minoc'] = { ButtonName = 'Minoc', CheckObjectID = '83324', ObjectType = "Permanent", IsBank = false }
+RuneLocations['Rocks I'] = { ButtonName = "Rocks I", CheckObjectID = '14523', ObjectType = "Permanent", IsBank = false }
+RuneLocations['Trees I'] = { ButtonName = "Trees I", CheckObjectID = '14523', ObjectType = "Permanent", IsBank = false }
+RuneLocations['Britain Carpenter'] = { ButtonName = "Britain Carpenter", CheckObjectID = '505334858', ObjectType = "Item",
+  IsBank = false }
+RuneLocations['Britain General Store'] = { ButtonName = "Britain General Store", CheckObjectID = '505335064',
+  ObjectType = "Item", IsBank = false }
+RuneLocations['Dagger Isle'] = { ButtonName = "Dagger Isle", CheckObjectID = '79194', ObjectType = "Permanent",
+  IsBank = false }
+RuneLocations['Sand Graveyard'] = { ButtonName = "Sand Graveyard", CheckObjectID = '40991', ObjectType = "Permanent",
+  IsBank = false }
+RuneLocations['Yew Carpenter'] = { ButtonName = "Yew Carpenter", CheckObjectID = '146246524', ObjectType = "Item",
+  IsBank = false }
+RuneLocations['Cove Bank'] = { ButtonName = "Cove Bank", CheckObjectID = '11214026', ObjectType = "Item", IsBank = true }
 
 Delay = 20000
 
@@ -34,24 +41,24 @@ function FindCheckItem(Destination)
 end
 
 function UseBook(Destination)
-      Object = FindCheckItem(Destination)
-      Log(RuneAction .. " to " .. RuneLocations[Destination].ButtonName);
-      FindItem("Runebook", BACKPACKID)
-      UseSelected(FINDITEM[1].ID)
-      SafeSleep(1000)
-      FindPanel("Runebook")
-      if(FINDPANEL ~= nil) then
-        RuneBook = FINDPANEL[1].ID
-        WaitForButtonThenClick(RuneBook, RuneLocations[Destination].ButtonName)
-        WaitForButtonThenClick(RuneBook, RuneAction)
-        if Object ~= nil and Object[1].DISTANCE < 15 then
-          return false
-        end
-        ClickButton(RuneBook, FINDBUTTON[1].NAME)
-        SafeSleep(Delay)
-      end
-      Object = FindCheckItem(Destination)
-      return true
+  Object = FindCheckItem(Destination)
+  Log(RuneAction .. " to " .. RuneLocations[Destination].ButtonName);
+  FindItem("Runebook", BACKPACKID)
+  UseSelected(FINDITEM[1].ID)
+  SafeSleep(1000)
+  FindPanel("Runebook")
+  if (FINDPANEL ~= nil) then
+    RuneBook = FINDPANEL[1].ID
+    WaitForButtonThenClick(RuneBook, RuneLocations[Destination].ButtonName)
+    WaitForButtonThenClick(RuneBook, RuneAction)
+    if Object ~= nil and Object[1].DISTANCE < 15 then
+      return false
+    end
+    ClickButton(RuneBook, FINDBUTTON[1].NAME)
+    SafeSleep(Delay)
+  end
+  Object = FindCheckItem(Destination)
+  return true
 end
 
 function UseRunes(Destination)
@@ -71,7 +78,7 @@ end
 function DoRecal(Destination, DelayOverride)
   Object = FindCheckItem(Destination)
   if Object == nil or Object[1].DISTANCE > 15 then
-    if(DelayOverride ~= nil) then
+    if (DelayOverride ~= nil) then
       Delay = DelayOverride
     end
     if RuneAction == "Charge" then
@@ -79,7 +86,7 @@ function DoRecal(Destination, DelayOverride)
       RechargeBook()
     end
     repeat
-      if(RuneBook) then
+      if (RuneBook) then
         AlreadyAtLocation = UseBook(Destination)
       else
         AlreadyAtLocation = UseRunes(Destination)
@@ -100,7 +107,6 @@ function DoRecal(Destination, DelayOverride)
   end
 end
 
-
 function RechargeBook()
   OpenBackpack()
   TakeFromStack("Recall Scroll", GetLoginSafeValue(BACKPACKID), 1)
@@ -110,7 +116,7 @@ function RechargeBook()
   SafeSleep(1000)
   Dropc(GetLoginSafeValue(BACKPACKID))
   FindPanel("Runebook")
-  if(FINDPANEL ~= nil) then
+  if (FINDPANEL ~= nil) then
     ClosePanel(FINDPANEL[1].ID)
   end
 end
@@ -125,7 +131,7 @@ function GetRecScrollsFromBank()
   else
     BackPackPile = FINDITEM[1];
     NumberInBackPack = tonumber(string.match(FINDITEM[1].NAME:gsub("00FF00", ""), "%d+"));
-    if(NumberInBackPack == nil) then
+    if (NumberInBackPack == nil) then
       NumberInBackPack = 1
     end
   end

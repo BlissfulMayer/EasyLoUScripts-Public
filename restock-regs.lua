@@ -23,7 +23,7 @@ function RestockRegs(Amount, RegNames)
   OpenContainer(BankRegBag)
   OpenContainer(BackpackRegBag)
 
-  for i,RegName in ipairs(RegNames) do
+  for i, RegName in ipairs(RegNames) do
     RestockItemFromContainer(RegName, Amount, BankRegBag, BackpackRegBag)
   end
 

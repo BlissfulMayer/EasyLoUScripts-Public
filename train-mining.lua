@@ -34,12 +34,12 @@ end
 
 function MineSpot(SpotID)
   FindPermanent(SpotID)
-  if FINDPERMANENT[1].STONESTATE == 0 or FINDPERMANENT[1].STONESTATE == 2  then
-  -- if FINDPERMANENT[1].STONESTATE == 0 then
+  if FINDPERMANENT[1].STONESTATE == 0 or FINDPERMANENT[1].STONESTATE == 2 then
+    -- if FINDPERMANENT[1].STONESTATE == 0 then
     local startTime = GetTime()
     Eat()
     repeat
-      if(RightHandCheck("Pick") == false) then
+      if (RightHandCheck("Pick") == false) then
         Equip("Pick")
       end
       AsboluteMacro(29)
@@ -53,7 +53,7 @@ end
 
 function DoMining()
   Speak("Mining")
-  for i,Location in ipairs(Locations[GetPersistentValue("CurrentMiningLocation")]) do
+  for i, Location in ipairs(Locations[GetPersistentValue("CurrentMiningLocation")]) do
     if i >= GetPersistentInt("CurrentMiningNode") then
       SetPersistentInt("CurrentMiningNode", i)
       Log("Mining node: " .. i);
@@ -61,10 +61,10 @@ function DoMining()
       MineSpot(Location.id)
       KillNearbyMonsters()
       -- HarvestItemsFromFloor("Sulfurous Ash")
-      if(GetLoginSafeValue(HEALTH) < 100) then
+      if (GetLoginSafeValue(HEALTH) < 100) then
         Heal()
       end
-      if(GetLoginSafeValue(CHARWEIGHT) > 340) then
+      if (GetLoginSafeValue(CHARWEIGHT) > 340) then
         return
       end
     end
@@ -100,10 +100,10 @@ function DoBanking()
   OpenContainer(BackpackRegBag)
   OpenContainer(BankToolBag)
 
-  for k,OreType in pairs(OreTypes) do
+  for k, OreType in pairs(OreTypes) do
     BankItems(OreType.IngotName)
   end
-  for i,Gem in ipairs(Gems) do
+  for i, Gem in ipairs(Gems) do
     BankItems(Gem)
   end
   BankItems("Gold")
@@ -112,13 +112,13 @@ function DoBanking()
 
   FindItem("Iron[", BankID)
   if FINDITEM then
-    IronCount = tonumber(string.match(FINDITEM[1].NAME:gsub(",", ""),"%d+"));
+    IronCount = tonumber(string.match(FINDITEM[1].NAME:gsub(",", ""), "%d+"));
     Speak(IronCount .. " Iron in bank")
   end
 
   GetMultipleNonStackableFromContainer("Pick", 3, BankToolBag, BACKPACKID)
 
-  RestockRegs(20, {"Black Pearl", "Blood Moss", "Mandrake Root"})
+  RestockRegs(20, { "Black Pearl", "Blood Moss", "Mandrake Root" })
   RestockItemFromContainer("Bread", 2, BankID, BACKPACKID)
 
   SwitchMiningLocation()
@@ -130,4 +130,3 @@ while true do
   DoMining()
   DoSmelting()
 end
-

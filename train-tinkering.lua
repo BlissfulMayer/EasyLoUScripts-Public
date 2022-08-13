@@ -36,7 +36,7 @@ function WaitTillTinkeringComplete()
     FindItem(Tool)
   until FINDPANEL ~= nil or FINDITEM == nil or GetTime() > StartTime + 900
   ClosePanel("CraftingWindow")
-  if(FINDPANEL ~= nil) then
+  if (FINDPANEL ~= nil) then
     Log("Tinkering ended because the window reopened")
   elseif FINDITEM == nil then
     Log("Tinkering ended because toolkits ran out")
@@ -52,8 +52,8 @@ function DoBanking()
   SafeSleep(3000)
   BankItems(Product)
   if GetItemCount(Resource, BankID) == 0 then
-      Speak("No " .. Resource .. " Left - Exiting")
-      LogoutAndEndScript()
+    Speak("No " .. Resource .. " Left - Exiting")
+    LogoutAndEndScript()
   end
   GetMultipleNonStackableFromContainer(Tool, 2, BankToolBag, BACKPACKID)
   RestockItemFromContainer(Resource, 275, BankID, BACKPACKID)
@@ -61,12 +61,10 @@ function DoBanking()
 end
 
 while true do
-    Eat()
-    DoTinkering()
-    FindItem(Tool, BACKPACKID)
-    if FINDITEM == nil or (GetItemCount(Resource, BACKPACKID) < AmountRequire) then
-      DoBanking()
-    end
+  Eat()
+  DoTinkering()
+  FindItem(Tool, BACKPACKID)
+  if FINDITEM == nil or (GetItemCount(Resource, BACKPACKID) < AmountRequire) then
+    DoBanking()
+  end
 end
-
-

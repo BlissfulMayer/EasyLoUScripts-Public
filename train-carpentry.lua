@@ -14,14 +14,14 @@ SelectedCarpentryLocation = "Yew Carpenter"
 SelectedBankLocation = "Britain Bank"
 
 FindItem("Crafting Pouch", GetLoginSafeValue(BACKPACKID))
-CraftingPouch  = FINDITEM[1].ID
-Resource = "Plain Wooden Board"
+CraftingPouch = FINDITEM[1].ID
+Resource      = "Plain Wooden Board"
 AmountRequire = 6
-Product = "Wooden Standing Torch"
-BankCount = 1
-Tool = "Saw"
-Salvage = true
-AllowSpeech = false
+Product       = "Wooden Standing Torch"
+BankCount     = 1
+Tool          = "Saw"
+Salvage       = true
+AllowSpeech   = false
 
 function MoveToBreakCurrentAction()
   OriginalXPosition = GetLoginSafeValue(CHARPOSX)
@@ -82,7 +82,7 @@ function WaitTillSalvageComplete()
     FindItem(Product, CraftingPouch)
     SafeSleep(1000)
   until FINDITEM == nil -- or GetTime() > StartTime + 300
-  if(FINDITEM == nil) then
+  if (FINDITEM == nil) then
     Log("Salvaging ended because the bag is empty")
   else
     Log("Salvaging ended because of timeout")
@@ -102,7 +102,7 @@ function WaitTillCarpentryComplete()
     FindItem(Tool)
   until FINDPANEL ~= nil or FINDITEM == nil or GetTime() > StartTime + 900
   ClosePanel("CraftingWindow")
-  if(FINDPANEL ~= nil) then
+  if (FINDPANEL ~= nil) then
     Log("Carpentry ended because the window reopened")
   elseif FINDITEM == nil then
     Log("Carpentry ended because saws ran out")
@@ -120,15 +120,15 @@ function DoBanking()
   OpenContainer(BackpackRegBag)
   SafeSleep(3000)
   if GetItemCount(Resource, BankID) == 0 then
-      Speak("No " .. Resource .. " Left - Exiting")
-      LogoutAndEndScript()
+    Speak("No " .. Resource .. " Left - Exiting")
+    LogoutAndEndScript()
   end
   if Salvage == false then
     BankItems(Product, CraftingPouch)
   end
   RestockItemFromContainer(Resource, 250, BankID, CraftingPouch)
   GetMultipleNonStackableFromContainer(Tool, 2, BankToolBag, BACKPACKID)
-  RestockRegsResult = RestockRegs(20, {"Black Pearl", "Blood Moss", "Mandrake Root"})
+  RestockRegsResult = RestockRegs(20, { "Black Pearl", "Blood Moss", "Mandrake Root" })
   RestockItemFromContainer("Bandage", 20, BankID, BACKPACKID)
   RestockItemFromContainer("Bread", 5, BankID, BACKPACKID)
   if RestockRegsResult == false then
@@ -139,36 +139,34 @@ function DoBanking()
 end
 
 while true do
-    FindItem(CarpentryLocations[SelectedCarpentryLocation].TableId)
-    Table = FINDITEM
+  FindItem(CarpentryLocations[SelectedCarpentryLocation].TableId)
+  Table = FINDITEM
 
-    if Table ~= nil then
-      Eat()
-      if Salvage then
-        DoSalvaging()
-      end
-      Eat()
-      DoCarpentry()
-      Eat()
-    end
-
-    FindItem(Tool, BACKPACKID)
-    Tools = FINDITEM
-
-    if Salvage then
-      FindItem(Product, CraftingPouch)
-      Deeds = FINDITEM
-      if Tools == nil or Table == nil or (GetItemCount(Resource, CraftingPouch) < AmountRequire and Deeds == nil) then
-        DoBanking()
-      end
-    else
-      if Tools == nil or Table == nil or (GetItemCount(Resource, CraftingPouch) < AmountRequire) then
-        DoBanking()
-      end
-    end
-
-
+  if Table ~= nil then
     Eat()
+    if Salvage then
+      DoSalvaging()
+    end
+    Eat()
+    DoCarpentry()
+    Eat()
+  end
+
+  FindItem(Tool, BACKPACKID)
+  Tools = FINDITEM
+
+  if Salvage then
+    FindItem(Product, CraftingPouch)
+    Deeds = FINDITEM
+    if Tools == nil or Table == nil or (GetItemCount(Resource, CraftingPouch) < AmountRequire and Deeds == nil) then
+      DoBanking()
+    end
+  else
+    if Tools == nil or Table == nil or (GetItemCount(Resource, CraftingPouch) < AmountRequire) then
+      DoBanking()
+    end
+  end
+
+
+  Eat()
 end
-
-

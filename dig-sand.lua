@@ -35,12 +35,10 @@ function DoBanking()
   BankItems("Sand")
   BankItems("Gold")
   GetMultipleNonStackableFromContainer("Shovel", 3, BankToolBag, BACKPACKID)
-  RestockRegs(10, {"Black Pearl", "Blood Moss", "Mandrake Root"})
+  RestockRegs(10, { "Black Pearl", "Blood Moss", "Mandrake Root" })
 end
 
 while true do
   DoBanking()
   DoDigging()
 end
-
-

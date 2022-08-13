@@ -33,11 +33,11 @@ end
 function CutTree(SpotID)
   FindPermanent(SpotID)
   if FINDPERMANENT[1].TREESTATE ~= 1 then
-  -- if FINDPERMANENT[1].TREESTATE == 0 then
+    -- if FINDPERMANENT[1].TREESTATE == 0 then
     local startTime = GetTime()
     Eat()
     repeat
-      if(RightHandCheck("Hatchet") == false) then
+      if (RightHandCheck("Hatchet") == false) then
         Equip("Hatchet")
       end
       AsboluteMacro(29)
@@ -52,18 +52,18 @@ end
 function DoCutting()
   DoRecal(GetPersistentValue("CurrentLumberjackLocation"))
   Speak("Lumberjacking")
-  for i,Location in ipairs(Locations[GetPersistentValue("CurrentLumberjackLocation")]) do
-      SetPersistentInt("CurrentLumberjackNode", i)
-      Log("Cutting node: " .. i);
-      Walk(Location.x, Location.y, Location.z)
-      CutTree(Location.id)
-      KillNearbyMonsters()
-      if(GetLoginSafeValue(HEALTH) < 100) then
-        Heal()
-      end
-      if(GetLoginSafeValue(CHARWEIGHT) > 340) then
-        return
-      end
+  for i, Location in ipairs(Locations[GetPersistentValue("CurrentLumberjackLocation")]) do
+    SetPersistentInt("CurrentLumberjackNode", i)
+    Log("Cutting node: " .. i);
+    Walk(Location.x, Location.y, Location.z)
+    CutTree(Location.id)
+    KillNearbyMonsters()
+    if (GetLoginSafeValue(HEALTH) < 100) then
+      Heal()
+    end
+    if (GetLoginSafeValue(CHARWEIGHT) > 340) then
+      return
+    end
     if GetPersistentInt("CurrentLumberjackNode") == #Locations[GetPersistentValue("CurrentLumberjackLocation")] then
       return
     end
@@ -84,11 +84,11 @@ end
 function FixOverburden()
   if GetLoginSafeValue(CHARWEIGHT) > 379 then
     FindItem("Plain Wooden Log")
-    if(FINDITEM ~= nil) then
+    if (FINDITEM ~= nil) then
       repeat
-      TakeFromStack("Plain Wooden Log", BACKPACKID, 1)
-      SafeSleep(500)
-      Dropg(CHARPOSX, CHARPOSY, CHARPOSZ)
+        TakeFromStack("Plain Wooden Log", BACKPACKID, 1)
+        SafeSleep(500)
+        Dropg(CHARPOSX, CHARPOSY, CHARPOSZ)
       until GetLoginSafeValue(CHARWEIGHT) < 380
     end
   end
@@ -114,7 +114,7 @@ function MakeBoards()
   FixOverburden()
   DoRecal("Yew Carpenter")
   Speak("Making Boards")
-  for k,LogType in pairs(LogTypes) do
+  for k, LogType in pairs(LogTypes) do
     print(LogType.LogName)
     Logs = nil
     FindItem(LogType.LogName, BACKPACKID)
@@ -145,7 +145,7 @@ function WaitTillBoardMakingComplete()
     FindItem(Tool)
   until FINDPANEL ~= nil or FINDITEM == nil or GetTime() > StartTime + 900
   ClosePanel("CraftingWindow")
-  if(FINDPANEL ~= nil) then
+  if (FINDPANEL ~= nil) then
     Log("BoardMaking ended because the window reopened")
   elseif FINDITEM == nil then
     Log("BoardMaking ended because toolkits ran out")
@@ -168,7 +168,7 @@ function DoBanking()
   BankItems("Apple")
   BankItems("Kindling")
   BankItems("Seed")
-  RestockRegs(10, {"Black Pearl", "Blood Moss", "Mandrake Root"})
+  RestockRegs(10, { "Black Pearl", "Blood Moss", "Mandrake Root" })
   RestockItemFromContainer("Apple", 10, BankID, BACKPACKID)
   GetMultipleNonStackableFromContainer("Hatchet", 3, BankToolBag, BACKPACKID)
   GetMultipleNonStackableFromContainer("Saw", 3, BankToolBag, BACKPACKID)
@@ -180,5 +180,3 @@ while true do
   DoCutting()
   MakeBoards()
 end
-
-

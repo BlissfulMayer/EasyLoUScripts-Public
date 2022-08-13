@@ -38,8 +38,8 @@ SparHealThreshold = 50
 
 
 EquipItems = {
-	CHESTNAME = "Tunic",
-	LEGSNAME = "Leggings",
-	HEADNAME = "Coif",
-	LEFTHANDNAME = "Buckler"
+  CHESTNAME = "Tunic",
+  LEGSNAME = "Leggings",
+  HEADNAME = "Coif",
+  LEFTHANDNAME = "Buckler"
 }
